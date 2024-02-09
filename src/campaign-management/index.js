@@ -21,29 +21,31 @@ const CampaignManagement = () => {
     }
   }, []);
 
-  const showLoader = async () => {
-    setIsLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 5000));
-    setIsLoading(false);
+  /* purposefully waiting to see the loader */
+  const tempWaiting = async () => {
+    await new Promise((resolve) => setTimeout(resolve, 3000));
   };
 
   const handleSaveCampaign = async (campaign) => {
-    let updatedCampaigns = [];
+    setIsLoading(true);
+
+    await tempWaiting();
+
+    let updatedCampaigns = [...campaigns];
     if (campaign.campaign_id) {
-      updatedCampaigns = campaigns.map((item) => {
+      updatedCampaigns = updatedCampaigns.map((item) => {
         if (item.campaign_id === campaign.campaign_id) {
           return { ...item, ...campaign };
         }
         return item;
       });
     } else {
-      campaign.campaign_id = campaign.campaign_id || campaigns.length + 1;
+      campaign.campaign_id = campaigns.length + 1;
       updatedCampaigns = [...campaigns, campaign];
     }
 
     setShowModal(false);
-
-    await showLoader();
+    setIsLoading(false);
     setMessage(`Date saved successfully.`);
 
     setCampaigns(updatedCampaigns);
@@ -57,6 +59,10 @@ const CampaignManagement = () => {
   };
 
   const handleStatusCampaign = async (campaignToActivate, status) => {
+    setIsLoading(true);
+
+    await tempWaiting();
+
     const updatedCampaigns = campaigns.map((campaign) => {
       if (campaign === campaignToActivate) {
         return { ...campaign, campaign_status_id: status };
@@ -64,12 +70,12 @@ const CampaignManagement = () => {
       return campaign;
     });
 
-    await showLoader();
     setMessage(
       `${
         status == CampaignStatus.CampaignStatus ? "Activated" : "Deleted "
       } successfully.`
     );
+    setIsLoading(false);
     setCampaigns(updatedCampaigns);
     setFilteredCampaigns(updatedCampaigns);
     saveCampaigns(updatedCampaigns);
