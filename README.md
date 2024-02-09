@@ -1,20 +1,31 @@
 ## Overview
 
 This Application displays a list of campaigns in a table. The columns should be
+
 ● Name
+
 ● Type
+
 ● Start date
+
 ● End date
+
 ● Status
+
 ● Actions
+
 This view is intended to provide customers with an overview of their current campaigns and enable them to create new campaigns and manipulate master data.
 
 ## Features
 
 Add/Edit Campaigns
+
 Filtering Campaigns
+
 Sorting Campaigns
+
 Changing the status of a campaign
+
 
 ## Available Scripts
 
